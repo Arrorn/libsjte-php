@@ -8,8 +8,8 @@ Implements the Steinhaus-Johnson-Trotter Algorithm in a form that can be used li
 If you wish to use the most optimized version simply use sjtePermutation. You can use it in a for loop as so
 
 ```php
-$perm = new sjtePermutation(array(1,2,3,4));
-for(sjtePermutation::rewind($perm);sjtePermutation::next($perm);sjtePermutation::valid($perm)){
+$perm = new sjtePermutation($set = array(1,2,3,4));
+for(sjtePermutation::rewind($perm);sjtePermutation::valid($perm);sjtePermutation::next($perm)){
     $current = sjtePermutation::current($perm);
     $reverse = array_reverse($current);
     $key = sjtePermutation::key($key);
@@ -19,8 +19,8 @@ for(sjtePermutation::rewind($perm);sjtePermutation::next($perm);sjtePermutation:
 or like so
 
 ```php
-$perm = new sjtePermutation(array(1,2,3,4));
-for($perm::rewind($perm);$perm::next($perm);$perm::valid($perm)){
+$perm = new sjtePermutation($set = array(1,2,3,4));
+for($perm::rewind($perm);$perm::valid($perm);$perm::next($perm)){
     $current = $perm::current($perm);
     $reverse = array_reverse($current);
     $key = $perm::key($key);
@@ -31,7 +31,7 @@ for($perm::rewind($perm);$perm::next($perm);$perm::valid($perm)){
 If speed is not your concern. I have included an iterator implementation allowing use in a foreach loop.
 
 ```php
-$perm = new sjtePermutationWrapper(array(1,2,3,4));
+$perm = new sjtePermutationWrapper($set = array(1,2,3,4));
 foreach($perm as $key => $current){
     $reverse = array_reverse($current);
     /*do magical stuff*/

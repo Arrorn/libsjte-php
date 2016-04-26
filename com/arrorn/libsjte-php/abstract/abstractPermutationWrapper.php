@@ -4,19 +4,19 @@ abstract class abstractPermutationWrapper implements Iterator{
     protected $perm = null;
 
     public function current(){
-        return Permutation::current($this->perm);
+        return $perm::current($this->perm);
     }
     public function key(){
-        return Permutation::key($this->perm);
+        return $perm::key($this->perm);
     }
     public function next(){
-        Permutation::next($this->perm);
+        $perm::next($this->perm);
     }
     public function rewind(){
-        Permutation::rewind($this->perm);
+        $perm::rewind($this->perm);
     }
     public function valid(){
-        return Permutation::valid($this->perm);
+        return $perm::valid($this->perm);
     }
 
 }
