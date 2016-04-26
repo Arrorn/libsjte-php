@@ -46,26 +46,26 @@ There is no included library in PHP for permutations, obviously since it is most
 
 A brief peruse of googles search results turned up recursive implementations. Which, if you don't know anything about PHP can be a problem. Most installations of PHP have in it's configuration a maximum stack function nesting value, limiting the possible recursion level of function calls. When you want to calculate a couple million permutations you can imagine that that would quickly become a problem.
 
-You can easily change this setting if you access to the php.ini for your installation or have a php configuration that allows you change ini values dynamically with `ini_set`. But then you have that pesky little problem called limited memory... Which, if you, like me, are testing your code on a different machine that you develop it, a digital ocean vps for example, and don't want to shell out your hard earned cash to upgrade the memory of your machine, vps, whatever, can quickly become a problem and will eventually result in what php gives you, a segfault. So how do you calculate millions of permutations without using too much memory or without recursion. A non-recursive implementation of permutation calculation. Better yet, a symmetrical permutation algorithm, which, is what STJ is.
+You can easily change this setting if you access to the php.ini for your installation or have a php configuration that allows you change ini values dynamically with `ini_set`. But then you have that pesky little problem called limited memory... Which, if you, like me, are testing your code on a different machine that you develop it, a digital ocean vps for example, and don't want to shell out your hard earned cash to upgrade the memory of your machine, vps, whatever, can quickly become a problem and will eventually result in what php gives you, a segfault. So how do you calculate millions of permutations without using too much memory or without recursion. A non-recursive implementation of permutation calculation. Better yet, a non-recursive symmetrical permutation algorithm, which, is what STJ is.
 
 STJ calculates a permutation of a given set by swapping pairs of the set in a calculated order. This calculation can be sped up by caching the direction of each item's movement and the order of the swaps that you have yet to commit, the Even's Speedup. This algorithm results in a symmetrical set of permutations. This allows you to simply calculate half of the possible permutations, and then when you evaluate a particular permutation, evaluate the reverse of it. This allows for the calculation time to be cut in half. Which, when you are calculating millions of permutations can be significant.
 
-Another interesting note is that the STJE algorithm will always calculate permutations in the same order. Which is actually what the value `stjePermutation::key()` returns. This implementation does not cache any of the calculated permutations to save on memory space. So if you wish to have say the 21001st calculated permutation, you can a) store it yourself, or b) recalculate it. The 21001st permutation of any set with at least 21001 permutations will always be the same as long as the set is not altered in any way.
+Another interesting note is that the STJE algorithm will always calculate permutations in the same order. Which is actually what the value `stjePermutation::key()` returns, the number of calculations between the original set and the current permutation. This implementation does not cache any of the calculated permutations to save on memory space. So if you wish to have, say, the 21001st calculated permutation you can a) store it yourself, or b) recalculate it. The 21001st permutation of any set with at least 21001 permutations will always be the same as long as the items of the set are not altered in any way between calculations.
 
 ## Ye gods, whatta meesa sayin'?
 
-Yes stjePermutation.php is not the prettiest thing in the php universe, and there is a reason for that. In php pretty things are not particularly fast things... PHP has many quirks that make it an interesting language to optimize. If you wish to know why I do something the way I do you can read up about 'php micro optimization' on google.
+Yes stjePermutation.php is not the prettiest thing in the php multi-verse, and there is a reason for that. In php pretty things are not particularly fast things... PHP has many quirks that make it an interesting language to optimize. If you wish to know why I do something the way I do you can read up about 'php micro optimization' on google.
 
 There are many differing opinions about what works and what doesn't and why. I have found that most articles on it know what they are talking about, kind-of. I ran through many different versions of my code until I came to this version that while still implementing some idea of OOD does not sacrifice too much speed to do so.
 
-Just little things like making the methods of stjePermutation static, and hoisting, and using local references improved benchmarks considerably. In it's current form stjePermutation can calculate about 20k permutations in a approximately a quarter of a second.
+Just little things like making the methods of stjePermutation static, and hoisting, and using local references improved benchmarks considerably. In it's current form stjePermutation can calculate about 20k permutations in less than a quarter of a second.
 
 ## Benchmarks
-Remember this implementation only calculates half of the possible permutations. `array_reverse` does run at O(n) time but for the total items in a set compared to the possible permutation it becomes nearly O(1).  
+Remember this implementation only calculates half of the possible permutations. `array_reverse` does run at O(n) time but when comparing the total items in a set to the possible permutation it becomes nearly O(1). Also, because the total number of items in the set does not change between calculations.   
 
 **PHP 5.5.9**
 
-*sjtePermutation.php*
+*sjtePermutation*
 ```
 40320 possible permutations (20160 actually calculated)
 ~0.15 seconds
@@ -87,7 +87,7 @@ Remember this implementation only calculates half of the possible permutations. 
 
 **PHP 7.0.5**
 
-*sjtePermutation.php*
+*sjtePermutation*
 ```
 40320 possible permutations (20160 actually calculated)
 ~0.08 seconds
