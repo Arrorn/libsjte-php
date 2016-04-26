@@ -61,4 +61,48 @@ There are many differing opinions about what works and what doesn't and why. I h
 Just little things like making the methods of stjePermutation static, and hoisting, and using local references improved benchmarks considerably. In it's current form stjePermutation can calculate about 20k permutations in a approximately a quarter of a second.
 
 ## Benchmarks
-All benchmarks below were ran on php 5.5.9 in a Digital Ocean vps with 512 mb.
+Remember this implementation only calculates half of the possible permutations. `array_reverse` does run at O(n) time but for the total items in a set compared to the possible permutation it becomes nearly O(1).  
+
+**PHP 5.5.9**
+
+*sjtePermutation.php*
+```
+40320 possible permutations (20160 actually calculated)
+~0.15 seconds
+362880 possible permutations
+~1.4 seconds
+3628800 possible permutations
+~14.25 seconds
+```
+
+*sjtePermutationWrapper*
+```
+40320 possible permutations
+~0.18 seconds
+362880 possible permutations
+~1.7 seconds
+3628800 possible permutations
+~18.75 seconds
+```
+
+**PHP 7.0.5**
+
+*sjtePermutation.php*
+```
+40320 possible permutations (20160 actually calculated)
+~0.08 seconds
+362880 possible permutations
+~0.75 seconds
+3628800 possible permutations
+~8.1 seconds
+```
+
+*sjtePermutationWrapper*
+```
+40320 possible permutations
+~0.09 seconds
+362880 possible permutations
+~.91 seconds
+3628800 possible permutations
+~9.9 seconds
+```
